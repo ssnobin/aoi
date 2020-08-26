@@ -54,6 +54,14 @@ local function grid_watch(self, is_remove)
     end
 end
 
+local function add_clean_merge_grid(self)
+    local aoi_obj = self.aoi_obj
+    local clean_merge_grid_map = aoi_obj.clean_merge_grid_map
+    local grid_idx = self.grid_idx
+    if not clean_merge_grid_map[grid_idx] then
+        clean_merge_grid_map[grid_idx] = true
+    end
+end
 
 local function expand_marked(marked)
     local is_watcher = (marked & 0x02) ~= 0
@@ -186,6 +194,7 @@ local function aoi_new(map_row, map_col, grid_row, grid_col)
         touch_grididx_map = {},
         touch_grid_count = 0,
         touch_grid_result = {},
+        clean_merge_grid_map = {},
     }
     return setmetatable(obj, aoi_mt)
 end
@@ -394,6 +403,7 @@ local function grid_get_ga_data(self)
     end
 
     local merge = grid_get_merge_objs(self)
+    add_clean_merge_grid(self)
     local ret = next(merge) and {} or nil
     for obj_id,v in pairs(merge) do
         ret[obj_id] = {
@@ -569,6 +579,12 @@ local function aoi_clear_all_touch_gridobjs(self)
         end
      end
      self.touch_grid_count = 0
+
+    for grid_idx, _ in pairs(self.clean_merge_grid_map) do
+        local grid_obj = get_gridobj_by_idx(self, grid_idx)
+        grid_obj.merge = false
+    end
+    self.clean_merge_grid_map = {}
 end
 
 

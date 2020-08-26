@@ -159,8 +159,21 @@ local function test1()
     update_aoi(true)
 end
 
+local function test3()
+    local aoi_obj = aoi.aoi_new(3, 3, 1, 1)
+    aoi_obj:aoi_add(1,MAKER_MARK|WATCHER_MARK,0,0)
+    aoi_obj:aoi_add(2,MAKER_MARK|WATCHER_MARK,2,2)
+    aoi_obj:aoi_update()
+    aoi_obj:aoi_set(1,1,1)
+    aoi_obj:aoi_update()
+    aoi_obj:aoi_add(3,MAKER_MARK|WATCHER_MARK,2,2)
+    aoi_obj:aoi_update()
+    aoi_obj:aoi_set(3,2,2)
+    aoi_obj:aoi_update()
+end
 
 -- test2()
-test1()
+--test1()
 -- m1_test()
+test3()
 
