@@ -58,7 +58,7 @@ local function add_clean_merge_grid(self)
     local aoi_obj = self.aoi_obj
     local clean_merge_grid_map = aoi_obj.clean_merge_grid_map
     local grid_idx = self.grid_idx
-    if not clean_merge_grid_map[grid_idx] then
+    if not aoi_obj.touch_grididx_map[grid_idx] and not clean_merge_grid_map[grid_idx] then
         clean_merge_grid_map[grid_idx] = true
     end
 end
